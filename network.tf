@@ -1,6 +1,25 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "3.22.0"
+    }
+  }
+  required_version = "~> 0.14"
+  backend "s3" {
+    bucket               = "yuan-terraform-backend"
+    key                  = "terraform.tfstate"
+    workspace_key_prefix = "terraform-workspaces"
+    dynamodb_table       = "s3-state-lock"
+    region               = "ap-southeast-2"
+ }
+
+
+
 provider "aws" {
   region = "ap-southeast-2"
 }
+
 
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
@@ -36,4 +55,3 @@ module "vpc" {
 
   }
 }
-
